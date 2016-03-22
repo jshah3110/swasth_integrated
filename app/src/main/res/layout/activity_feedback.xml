@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:id="@+id/feedbackLinearLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/divider0"
             android:orientation="vertical" />
@@ -42,14 +42,14 @@
     <ScrollView
         android:fadeScrollbars="false"
         android:scrollbarStyle="outsideOverlay"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/footer"
         android:layout_below="@id/header">
         <LinearLayout
             android:id="@+id/answerScrollViewLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="0dp"
             android:orientation="vertical" />
     </ScrollView>

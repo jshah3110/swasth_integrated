@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="#fff">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,15 +23,17 @@
             <LinearLayout
                 android:padding="0dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginBottom="0dp"
                 android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <FrameLayout
+
+                    android:layout_margin="12dp"
                     android:padding="0dp"
-                    android:layout_marginRight="0dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
                     android:clickable="true">
 
                     <ImageButton
+                        android:elevation="7dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -47,152 +49,164 @@
 
                         android:background="@drawable/icon"
                         android:clickable="true"
-                        android:padding="24dp"
+                        android:paddingTop="24dp"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp"
+                        android:paddingBottom="48dp"
                         android:src="@drawable/ic_currency_inr_black_24dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:elevation="7dp"
+                        android:background="#dd26a69a"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginBottom="0dp"
-                        android:layout_marginTop="118dp"
+                        android:layout_marginTop="130dp"
                         android:alpha="1"
-                        android:textColor="#000000"
+                        android:textColor="#ffffff"
                         android:clickable="true"
-                        android:gravity="bottom"
-                        android:text="@string/credits_text_view"
+                        android:gravity="center"
+                        android:text="Credits"
                         android:textAllCaps="true" />
 
                 </FrameLayout>
 
 
                 <FrameLayout
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
                     android:padding="0dp"
                     android:id="@+id/helpline"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
                     android:background="#ffffff"
                     android:clickable="true">
 
                     <ImageButton
+                        android:elevation="7dp"
                         android:id="@+id/barcode_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:layout_marginStart="0dp"
                         android:alpha="1"
                         android:layout_gravity="center"
                         android:background="@drawable/icon"
                         android:clickable="true"
-                        android:padding="24dp"
+                        android:paddingTop="24dp"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp"
+                        android:paddingBottom="48dp"
                         android:src="@drawable/ic_barcode_scan_black_24dp" />
 
                     <TextView
+                        android:elevation="7dp"
+                        android:background="#dd26a69a"
                         android:id="@+id/barcode_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="118dp"
-                        android:textColor="#000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginTop="130dp"
+                        android:textColor="#ffffff"
                         android:alpha="1"
                         android:clickable="true"
-                        android:text="@string/barcode_text_view"
+                        android:text="Barcode"
                         android:textAllCaps="true" />
 
                 </FrameLayout>
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="320dp"
-                android:layout_height="2dp"
-                android:id="@+id/imageView2"
-                android:background="#f5f5f5"
-                android:layout_gravity="center"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_centerHorizontal="true" />
-
             <LinearLayout
-
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="12dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <FrameLayout
-                    android:padding="8dp"
-                    android:layout_width="wrap_content"
+
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:clickable="true">
 
                     <ImageButton
-                        android:layout_width="wrap_content"
+                        android:elevation="7dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:alpha="1"
 
                         android:background="@drawable/icon"
                         android:clickable="true"
-                        android:padding="24dp"
+                        android:paddingTop="24dp"
+                        android:paddingLeft="24dp"
+                        android:paddingRight="24dp"
+                        android:paddingBottom="48dp"
                         android:src="@drawable/ic_account_multiple_black_24dp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
+                        android:elevation="7dp"
+                        android:background="#dd26a69a"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:layout_marginBottom="0dp"
-                        android:layout_marginTop="118dp"
+                        android:layout_marginTop="130dp"
                         android:alpha="1"
-                        android:textColor="#000000"
+                        android:textColor="#ffffff"
                         android:clickable="true"
-                        android:gravity="bottom"
-                        android:text="@string/family_text_view"
+                        android:text="Family"
                         android:textAllCaps="true" />
 
                 </FrameLayout>
 
 
                 <FrameLayout
-                    android:padding="8dp"
-                    android:layout_width="wrap_content"
+
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
                     android:background="#ffffff"
                     android:clickable="true">
 
                     <ImageButton
+                        android:elevation="7dp"
                         android:id="@+id/centers_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:layout_marginStart="0dp"
                         android:alpha="1"
+                        android:layout_gravity="center"
                         android:background="@drawable/icon"
                         android:clickable="true"
-                        android:paddingBottom="30dp"
+                        android:paddingTop="24dp"
                         android:paddingLeft="24dp"
                         android:paddingRight="24dp"
-                        android:paddingTop="18dp"
+                        android:paddingBottom="48dp"
                         android:src="@drawable/ic_google_maps_black_24dp" />
 
                     <TextView
+                        android:elevation="7dp"
+                        android:background="#dd26a69a"
                         android:id="@+id/centers_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="118dp"
-                        android:textColor="#000000"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginTop="130dp"
+                        android:textColor="#ffffff"
                         android:alpha="1"
                         android:clickable="true"
-                        android:text="@string/centers_text_view"
+                        android:text="Centers"
                         android:textAllCaps="true" />
 
                 </FrameLayout>
@@ -200,36 +214,41 @@
             </LinearLayout>
 
             <LinearLayout
+                android:elevation="7dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="67dp"
                 android:id="@+id/feedbackLinearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="28dp"
-                android:layout_marginRight="28dp"
-                android:layout_marginBottom="70dp"
-                android:background="@drawable/feedback_icon"
-                android:orientation="horizontal">
+                android:paddingBottom="0dp"
+                android:background="@drawable/icon"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:alpha="1"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="16dp"
                     android:contentDescription="@string/feedback"
                     android:src="@drawable/ic_clipboard_text_black_24dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="0dp"
+                    android:background="#dd26a69a"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="12dp"
                     android:alpha="1"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:text="@string/feedback"
                     android:textAllCaps="true"
-                    android:textSize="30sp"
+                    android:textSize="16sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -254,10 +273,11 @@
             android:layout_marginTop="24dp"
             android:background="#26A69A"
             android:padding="12dp"
+            android:textColor="#000000"
             android:text="@string/card_no_textview"
             android:gravity="center"
             android:textAllCaps="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="normal" />
 
 

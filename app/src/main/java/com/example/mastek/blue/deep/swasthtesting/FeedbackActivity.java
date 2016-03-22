@@ -246,9 +246,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         if(pos == 0){
-            startActivity(new Intent(FeedbackActivity.this, Dashboard.class));
+//            startActivity(new Intent(FeedbackActivity.this, Dashboard.class));
             progressText.setText("1 of 8");
-//            saveRadioState();
+            //saveRadioState();
+            finish();
         }
         else
             pos--;

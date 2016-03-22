@@ -1,6 +1,9 @@
 package com.example.mastek.blue.deep.swasthtesting;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -33,10 +37,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Button button;
     private User user;
     private UserLocalStore userLocalStore;
+    private Locale myLocale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences editor = getSharedPreferences("lang_info", Context.MODE_PRIVATE);
+        int selected = editor.getInt("key_lang", 0);
+
+        selectLanguage(selected);
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,6 +83,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         card_number = obj.getInt("user_card_number");
                         credits = obj.getInt("u_credits");
 
+                        Intent intent = new Intent(Login.this, Dashboard.class);
+                        user = new User(getApplicationContext());
+                        user.addUserDetails(credits, card_number, name);
+                        userLocalStore = new UserLocalStore(getApplicationContext());
+                        userLocalStore.setLoggedInUser(true);
+                        userLocalStore.storeUserData(username, password);
+                        startActivity(intent);
+                        finish();
+
                         Log.d("TEST", "Value of fname:" + name);
                         Log.d("TEST", "Value of card number:" + card_number);
                         Log.d("TEST", "Value of credits:" + credits);
@@ -81,14 +99,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                     }
 //                    Toast.makeText(getApplicationContext(), "Login Response 2......." + response, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Login.this, Dashboard.class);
-                    user = new User(getApplicationContext());
-                    user.addUserDetails(credits, card_number, name);
-                    userLocalStore = new UserLocalStore(getApplicationContext());
-                    userLocalStore.setLoggedInUser(true);
-                    userLocalStore.storeUserData(username, password);
-                    startActivity(intent);
-                    finish();
+
                 }
 
             }
@@ -108,6 +119,34 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    private void selectLanguage(int position) {
+        switch (position) {
+            case 1:
+                setLocale("hi");
+                break;
+            default:
+                setLocale("en");
+                break;
+        }
+    }
+
+    public void setLocale(String lang) {
+//        Configuration config = getBaseContext().getResources().getConfiguration();
+//
+//        myLocale = new Locale(lang);
+//        Locale.setDefault(myLocale);
+//        config.locale = myLocale;
+//        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        Configuration config = getBaseContext().getResources().getConfiguration();
+
+        myLocale = new Locale(lang);
+        Locale.setDefault(myLocale);
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        //onConfigurationChanged(config);  //not getting overridden
     }
 }
 

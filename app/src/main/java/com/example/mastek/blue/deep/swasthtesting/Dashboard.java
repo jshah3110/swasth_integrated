@@ -255,6 +255,54 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        userLocalStore = new UserLocalStore(getApplicationContext());
+        boolean status = userLocalStore.getLoginStatus();
+
+        Intent intent = new Intent(Dashboard.this, MainActivity.class);
+
+        if (!status) {
+            Log.d("TEST", "SharedPref status" + status);
+            startActivity(intent);
+        } else {
+            Log.d("TEST", "SharedPref Dashboard status" + status);
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        userLocalStore = new UserLocalStore(getApplicationContext());
+        boolean status = userLocalStore.getLoginStatus();
+
+        Intent intent = new Intent(Dashboard.this, MainActivity.class);
+
+        if (!status) {
+            Log.d("TEST", "SharedPref status" + status);
+            startActivity(intent);
+        } else {
+            Log.d("TEST", "SharedPref Dashboard status" + status);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userLocalStore = new UserLocalStore(getApplicationContext());
+        boolean status = userLocalStore.getLoginStatus();
+
+        Intent intent = new Intent(Dashboard.this, MainActivity.class);
+
+        if (!status) {
+            Log.d("TEST", "SharedPref status" + status);
+            startActivity(intent);
+        } else {
+            Log.d("TEST", "SharedPref Dashboard status" + status);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
