@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mastek.blue.deep.swasthtesting">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".FeedbackActivity"
+            android:configChanges="locale|orientation|keyboardHidden" />
+
+        <activity
+            android:name=".Login"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mastek.blue.deep.swasthtesting.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".Dashboard"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:label="@string/title_activity_dashboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
+
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".FeedbackSummary"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:label="@string/title_activity_feedback_summary"
+            android:parentActivityName=".Dashboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mastek.blue.deep.swasthtesting.Dashboard" />
+        </activity>
+        <activity
+            android:name=".Barcode"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:label="@string/title_activity_barcode"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".Dashboard"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mastek.blue.deep.swasthtesting.Dashboard" />
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_9abd4ccd50e940af0d58587bf85e9da8512b7740.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.1.1_f535aa69b6be96296ea09e4ee4e5c61222ec8ce1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="292a9fa091757208efa65e77eef63088247e51f3">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.2.0_55cf04a0ebf2cc771c34c8094f28dc5027f81e8e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6e3578f92f7462d1a935a1d36173e3bdd1234976">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.2.0_bc04ccd83231cfcc6f8da9191c85a9934b71dd6e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\libs\commons-io-2.4.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\commons-io-2.4_812dae3178d4f5fbce2936cfebbeb85285b4f81c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.2.0\support-annotations-23.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c5bf571bb10462bd90e5419ade67793f71acbc87">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\support-annotations-23.2.0_07eba890f10306088202ec425fd8e250b2cf247f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8c108c22c99e794eff255bb34d2a461200c4cbb0">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.2.0_8abce48d3bb98fb4f69bf236f6b99a0c512bde2e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\libs\internal_impl-23.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6e239441500605809818997dd63b62a947195f8c">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\internal_impl-23.2.0_044352cf284c08d2ff7c62a969adc5b4791f10fb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\.gradle\caches\modules-2\files-2.1\com.mcxiaoke.volley\library\1.0.19\a8f23f65fc1e522ee4a1a697ee569901a46741fa\library-1.0.19.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a8f23f65fc1e522ee4a1a697ee569901a46741fa">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\library-1.0.19_2f14d0e6a7c3b9dcf7932482d8d49c2dc3a8c255.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\gson-2.2.4_3055813ea78e62f0840cd743e8c2fde1b8f30786.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e5f32fa48a3eb2de0c987025c11b6e3864b634d9">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.0_bd78fa0747af2667d54ef59e69677f90daa08af0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\exploded-aar\de.hdodenhof\circleimageview\1.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4b868b833b0887aa48c4e581558eef4f1196f6a2">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\de.hdodenhof-circleimageview-1.2.1_2a70df76ac4b60f9d99445ba906eb9a10feb352d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Mitali\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.2.1\2287494d4f5f9f3a9a2bb6980e3f32053721b315\core-3.2.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
+        <dex dex="C:\Users\Mitali\AndroidStudioProjects\Swasth 210316\swasth_app\app\build\intermediates\pre-dexed\debug\core-3.2.1_cd0f9cc72647f541b4e4084b9b990ef6570cfbf8.jar" />
+    </item>
+
+</items>

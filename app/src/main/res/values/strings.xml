@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Swasth Prototype</string>
+    <string name="title_activity_register">Register</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_dashboard">Home</string>
+    <string name="card_no_textview">Card No.</string>
+    <string name="feedback_button">Feedback</string>
+    <string name="title_activity_barcode">Barcode</string>
+    <string name="title_activity_feedback_summary">Feedback Summary</string>
+    <string name="action_logout">Logout</string>
+    <string name="feedback">Feedback</string>
+    <string name="login_button">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="barcode_image_view">barcode</string>
+    <string name="credits_text_view">Credits</string>
+    <string name="barcode_text_view">Barcode</string>
+    <string name="family_text_view">Family</string>
+    <string name="centers_text_view">Centers</string>
+    <string name="swasth_motto_textview">Swasth Foundation</string>
+    <string name="email_edittext">Email</string>
+    <string name="password_edittext">Password</string>
+    <string name="link_signup">No account yet? Create one.</string>
+    <string name="username_edittext">Username</string>
+    <string name="confirm_password_edittext">Confirm Password</string>
+    <string name="link_login">Already a member? Login.</string>
+    <string name="choose_language_button">Choose Language</string>
+</resources>
