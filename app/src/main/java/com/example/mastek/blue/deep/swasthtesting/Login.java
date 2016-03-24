@@ -30,7 +30,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity implements View.OnClickListener {
     //  public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/volley/login.php";
     public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/swasth/user_login.php";
-    public static final String JSON_ADDRESS = "http://swasth-india.esy.es/swasth/jsontest.php";
+    public static  String JSON_ADDRESS = "";
 
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
@@ -48,6 +48,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         SharedPreferences editor = getSharedPreferences("lang_info", Context.MODE_PRIVATE);
         selected = editor.getInt("key_lang", 0);
         selectLanguage(selected);
+        JSON_ADDRESS = "http://swasth-india.esy.es/swasth/jsontest.php?choice=" + selected;
+
         getJsonQuestions(selected);
 
         setContentView(R.layout.activity_login);
@@ -154,7 +156,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
     private void getJsonQuestions(final int choice){
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, JSON_ADDRESS, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_ADDRESS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("TEST", "Response..." + response);
@@ -163,15 +165,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "Error......." + error, Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("choice", Integer.toString(choice));
-                return params;
-            }
-        };
+            }});
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("choice", Integer.toString(choice));
+//                return params;
+//            }
+//        };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
