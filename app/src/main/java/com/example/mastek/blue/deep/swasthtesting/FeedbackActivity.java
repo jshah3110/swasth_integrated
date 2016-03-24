@@ -1,6 +1,7 @@
 package com.example.mastek.blue.deep.swasthtesting;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,13 +47,16 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private RadioGroup optionsRadioGroup;
     private Map<String, String> hashMap;
     private ScrollView mainScrollView;
-    public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/volley/test_swasth_feedback.php";
+    public static int credits = 0;
+    private User user;
+    SharedPreferences sharedPreferences;
+    public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/swasth/insert_medical_feedback.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-
+        user = new User(getApplicationContext());
         progressText = (TextView)findViewById(R.id.progress_text);
         progressText.setText((pos+1)+" of 8");
 
@@ -128,8 +132,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
             progressText.setText((pos+1)+" of 8");
             if (pos >= questionsAdapter.getCount()) {
                 progressText.setText("8 of 8");
-                startActivity(new Intent(this, Dashboard.class));
-                Toast.makeText(this, "Thank you for the feedback.", Toast.LENGTH_SHORT).show();
+
                 final Map<String, String> sortedMap = new TreeMap<>(hashMap);
                 Toast.makeText(this, "Map is: " + sortedMap, Toast.LENGTH_LONG).show();
                 pos = questionsAdapter.getCount() - 1;
@@ -138,6 +141,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 public void onResponse(String response) {
                     Toast.makeText(getApplicationContext(),"Feedback Response......." + response , Toast.LENGTH_LONG).show();
                     Log.i("TEST", "Feedback Response......." + response);
+                    if(!response.equals("Error")){
+                        credits = Integer.parseInt(response);
+                        user.updateCredits(credits);
+                        Log.i("TEST","User Class Credits:" + user.getCredits());
+                        Intent intent = new Intent(FeedbackActivity.this, Dashboard.class);
+                        intent.putExtra("credits",response);
+                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(), "Thank you for the feedback.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Log.i("TEST","Error:"  + response);
+                    }
 //                    Intent intent = new Intent(FeedbackActivity.this, FeedbackSummary.class);
 //                    intent.putExtra("summary",sortedMap.toString());
 //                    startActivity(intent);

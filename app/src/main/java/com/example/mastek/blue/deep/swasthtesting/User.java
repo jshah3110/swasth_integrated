@@ -43,6 +43,13 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
+    public void updateCredits(int amount){
+        SharedPreferences.Editor spEditor = sharedPreferences.edit();
+        spEditor.remove("credits");
+        spEditor.apply();
+        //credits = credits + 5;
+        spEditor.putInt("credits", amount);
+        spEditor.apply();
+    }
 
 }

@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         name = obj.getString("fname");
                         card_number = obj.getInt("user_card_number");
                         credits = obj.getInt("u_credits");
-
+                        Log.i("TEST","Name:" + name + " Card Number: " + card_number + " Credits:" + credits);
                         Intent intent = new Intent(Login.this, Dashboard.class);
                         user = new User(getApplicationContext());
                         user.addUserDetails(credits, card_number, name);
