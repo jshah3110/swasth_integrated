@@ -49,7 +49,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private Toolbar toolbar;                              // Declaring the Toolbar Object
     // Declaring Action Bar Drawer Toggle
     private User user;
-   
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +57,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         int selected = editor.getInt("key_lang", 0);
 
         selectLanguage(selected);
-
+        user = new User(getApplicationContext());
         setContentView(R.layout.activity_dashboard);
-
+        NAME = user.getName();
+        CARD_NO = Integer.toString(user.getCardNumber());
         textView = (TextView) findViewById(R.id.textView);
         textView.setText("Card No: " + CARD_NO);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -289,18 +290,18 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         Intent intent = new Intent(Dashboard.this, MainActivity.class);
 
         user = new User(getApplicationContext());
-        CARD_NO = Integer.toString(user.getCardNumber());
+
         int credits;
         if(getIntent().getStringExtra("credits")!=null){
             credits = Integer.parseInt(getIntent().getStringExtra("credits"));
-            Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Your Credits after feedback: " + credits, Toast.LENGTH_LONG).show();
         }
         else{
             credits = user.getCredits();
             Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
         }
 
-        NAME = user.getName();
+
 
         if (!status) {
             Log.d("TEST", "SharedPref status" + status);
