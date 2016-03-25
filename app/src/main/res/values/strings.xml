@@ -18,7 +18,7 @@
     <string name="family_text_view">Family</string>
     <string name="centers_text_view">Centers</string>
     <string name="swasth_motto_textview">Swasth Foundation</string>
-    <string name="email_edittext">Email</string>
+    <string name="email_edittext">Card No.</string>
     <string name="password_edittext">Password</string>
     <string name="link_signup">No account yet? Create one.</string>
     <string name="username_edittext">Username</string>

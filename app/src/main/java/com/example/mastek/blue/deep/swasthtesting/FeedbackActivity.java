@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,10 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         Button nextButton = (Button) findViewById(R.id.nextButton);
         Button previousButton = (Button) findViewById(R.id.previousButton);
 //        mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
+
+        if(pos == 0){
+            previousButton.setVisibility(View.GONE);
+        }
 
         nextButton.setOnClickListener(this);
         previousButton.setOnClickListener(this);
@@ -125,6 +130,8 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private void nextQuestion() {
         if (flag) {
             pos++;
+            Button previousButton = (Button) findViewById(R.id.previousButton);
+            previousButton.setVisibility(View.VISIBLE);
             progressText.setText((pos+1)+" of 8");
             if (pos >= questionsAdapter.getCount()) {
                 progressText.setText("8 of 8");
@@ -183,9 +190,13 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         progressText.setText((pos+1)+" of 8");
         if (pos < 0) {
             progressText.setText("1 of 8");
-            Toast.makeText(this, "This is the first question!", Toast.LENGTH_SHORT).show();
             pos = 0;
-        } else {
+        }
+//        else if(pos == 0){
+//            Button previousButton = (Button) findViewById(R.id.previousButton);
+//            previousButton.setVisibility(View.GONE);
+//        }
+        else {
             feedbackLinearLayout.removeViewAt(0);
             answerLinearLayout.removeViewAt(0);
             feedbackLinearLayout.addView(questionsAdapter.getView(pos, null, feedbackLinearLayout));
@@ -248,9 +259,15 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         if(pos == 0){
 //            startActivity(new Intent(FeedbackActivity.this, Dashboard.class));
             progressText.setText("1 of 8");
+            Button previousButton = (Button) findViewById(R.id.previousButton);
+            previousButton.setVisibility(View.GONE);
             //saveRadioState();
             finish();
         }
+//        else if(pos == 1){
+//            Button previousButton = (Button) findViewById(R.id.previousButton);
+//            previousButton.setVisibility(View.GONE);
+//        }
         else
             pos--;
             progressText.setText((pos+1)+" of 8");
