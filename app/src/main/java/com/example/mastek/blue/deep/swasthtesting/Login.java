@@ -30,17 +30,17 @@ import java.util.Map;
 public class Login extends AppCompatActivity implements View.OnClickListener {
     //  public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/volley/login.php";
     public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/swasth/user_login.php";
-    public static  String JSON_ADDRESS = "";
-
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
+    public static String JSON_ADDRESS = "";
+    public int selected;
     EditText etusername;
     EditText pass;
     Button button;
     private User user;
     private UserLocalStore userLocalStore;
     private Locale myLocale;
-    public int selected;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +48,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         SharedPreferences editor = getSharedPreferences("lang_info", Context.MODE_PRIVATE);
         selected = editor.getInt("key_lang", 0);
         selectLanguage(selected);
+        setTitle(R.string.title_activity_login);
         JSON_ADDRESS = "http://swasth-india.esy.es/swasth/jsontest.php?choice=" + selected;
 
-        getJsonQuestions(selected);
-
         setContentView(R.layout.activity_login);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         etusername = (EditText) findViewById(R.id.etLUsername);
@@ -88,19 +88,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         name = obj.getString("fname");
                         card_number = obj.getInt("user_card_number");
                         credits = obj.getInt("u_credits");
-                        Log.i("TEST","Name:" + name + " Card Number: " + card_number + " Credits:" + credits);
-                        Intent intent = new Intent(Login.this, Dashboard.class);
+                        Log.i("TEST", "Name:" + name + " Card Number: " + card_number + " Credits:" + credits);
+
                         user = new User(getApplicationContext());
                         user.addUserDetails(credits, card_number, name);
                         userLocalStore = new UserLocalStore(getApplicationContext());
                         userLocalStore.setLoggedInUser(true);
                         userLocalStore.storeUserData(username, password);
-                        startActivity(intent);
-                        finish();
+
+                        Intent intent = new Intent(Login.this, Dashboard.class);
 
                         Log.d("TEST", "Value of fname:" + name);
                         Log.d("TEST", "Value of card number:" + card_number);
                         Log.d("TEST", "Value of credits:" + credits);
+
+                        startActivity(intent);
+                        finish();
+
                     } catch (Exception ex) {
 
                     }
@@ -154,28 +158,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         //onConfigurationChanged(config);  //not getting overridden
     }
-    private void getJsonQuestions(final int choice){
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_ADDRESS, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i("TEST", "Response..." + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error......." + error, Toast.LENGTH_LONG).show();
-            }});
-//        }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("choice", Integer.toString(choice));
-//                return params;
-//            }
-//        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
 }
 
