@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,23 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         Button nextButton = (Button) findViewById(R.id.nextButton);
         Button previousButton = (Button) findViewById(R.id.previousButton);
         //   mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
+
+        if(pos == 0){
+            previousButton.setVisibility(View.GONE);
+        }
+
+        nextButton.setOnClickListener(this);
+        previousButton.setOnClickListener(this);
+
+        try {
+            InputStream inputStream1 = getAssets().open("feedback.json");
+            String response1 = IOUtils.toString(inputStream1);
+
+            InputStream inputStream2 = getAssets().open("feedbackanswers.json");
+            String response2 = IOUtils.toString(inputStream2);
+
+            Gson gson1 = new GsonBuilder().create();
+            Questions feedbackCollection = gson1.fromJson(response1, Questions.class);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -103,8 +121,11 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private void nextQuestion() {
         if (flag) {
             pos++;
-            progressText.setText((pos + 1) + " of 8");
-            if (pos >= feedbackAdapter.getCount()) {
+
+            Button previousButton = (Button) findViewById(R.id.previousButton);
+            previousButton.setVisibility(View.VISIBLE);
+            progressText.setText((pos+1)+" of 8");
+            if (pos >= questionsAdapter.getCount()) {
                 progressText.setText("8 of 8");
 
                 final Map<String, String> sortedMap = new TreeMap<>(hashMap);
@@ -169,12 +190,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         progressText.setText((pos + 1) + " of 8");
         if (pos < 0) {
             progressText.setText("1 of 8");
-            Toast.makeText(this, "This is the first question!", Toast.LENGTH_SHORT).show();
             pos = 0;
-        } else {
-            feedbackScrollViewLayout.removeViewAt(0);
-            feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
+}
 
+//        else if(pos == 0){
+//            Button previousButton = (Button) findViewById(R.id.previousButton);
+//            previousButton.setVisibility(View.GONE);
+//        }
+        else {
+            feedbackLinearLayout.removeViewAt(0);
+            answerLinearLayout.removeViewAt(0);
+            feedbackLinearLayout.addView(questionsAdapter.getView(pos, null, feedbackLinearLayout));
+            answerLinearLayout.addView(answersAdapter.getView(pos, null, answerLinearLayout));
             saveRadioState();
             flag = true;
         }
@@ -232,9 +259,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         if (pos == 0) {
 //            startActivity(new Intent(FeedbackActivity.this, Dashboard.class));
             progressText.setText("1 of 8");
+            Button previousButton = (Button) findViewById(R.id.previousButton);
+            previousButton.setVisibility(View.GONE);
             //saveRadioState();
             finish();
-        } else
+
+        }
+//        else if(pos == 1){
+//            Button previousButton = (Button) findViewById(R.id.previousButton);
+//            previousButton.setVisibility(View.GONE);
+//        }
+        else
+{
             pos--;
         progressText.setText((pos + 1) + " of 8");
         feedbackScrollViewLayout.removeViewAt(0);
