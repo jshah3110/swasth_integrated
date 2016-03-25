@@ -30,6 +30,8 @@ import java.util.Map;
 public class Login extends AppCompatActivity implements View.OnClickListener {
     //  public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/volley/login.php";
     public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/swasth/user_login.php";
+    public static  String JSON_ADDRESS = "";
+
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
     EditText etusername;
@@ -38,14 +40,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private User user;
     private UserLocalStore userLocalStore;
     private Locale myLocale;
+    public int selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences editor = getSharedPreferences("lang_info", Context.MODE_PRIVATE);
-        int selected = editor.getInt("key_lang", 0);
-
+        selected = editor.getInt("key_lang", 0);
         selectLanguage(selected);
+        JSON_ADDRESS = "http://swasth-india.esy.es/swasth/jsontest.php?choice=" + selected;
+
+        getJsonQuestions(selected);
+
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,7 +88,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         name = obj.getString("fname");
                         card_number = obj.getInt("user_card_number");
                         credits = obj.getInt("u_credits");
-
+                        Log.i("TEST","Name:" + name + " Card Number: " + card_number + " Credits:" + credits);
                         Intent intent = new Intent(Login.this, Dashboard.class);
                         user = new User(getApplicationContext());
                         user.addUserDetails(credits, card_number, name);
@@ -147,6 +153,29 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         //onConfigurationChanged(config);  //not getting overridden
+    }
+    private void getJsonQuestions(final int choice){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_ADDRESS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("TEST", "Response..." + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error......." + error, Toast.LENGTH_LONG).show();
+            }});
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("choice", Integer.toString(choice));
+//                return params;
+//            }
+//        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }
 

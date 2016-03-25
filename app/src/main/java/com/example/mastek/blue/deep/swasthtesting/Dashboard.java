@@ -57,13 +57,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         int selected = editor.getInt("key_lang", 0);
 
         selectLanguage(selected);
-
-        setContentView(R.layout.activity_dashboard);
         user = new User(getApplicationContext());
-        CARD_NO = Integer.toString(user.getCardNumber());
-        int credits = Integer.parseInt(Integer.toString(user.getCredits()));
-        Toast.makeText(getApplicationContext(), "Your Credits: " + credits, Toast.LENGTH_LONG).show();
+        setContentView(R.layout.activity_dashboard);
         NAME = user.getName();
+        CARD_NO = Integer.toString(user.getCardNumber());
         textView = (TextView) findViewById(R.id.textView);
         textView.setText("Card No: " + CARD_NO);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -226,10 +223,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             case R.id.feedbackLinearLayout:
                 Intent intent = new Intent(this, FeedbackActivity.class);
                 startActivity(intent);
-//                finish();
+//              finish();
                 break;
-
-
         }
 
     }
@@ -294,6 +289,20 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
         Intent intent = new Intent(Dashboard.this, MainActivity.class);
 
+        user = new User(getApplicationContext());
+
+        int credits;
+        if(getIntent().getStringExtra("credits")!=null){
+            credits = Integer.parseInt(getIntent().getStringExtra("credits"));
+            Toast.makeText(getApplicationContext(), "Your Credits after feedback: " + credits, Toast.LENGTH_LONG).show();
+        }
+        else{
+            credits = user.getCredits();
+            Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
+        }
+
+
+
         if (!status) {
             Log.d("TEST", "SharedPref status" + status);
             startActivity(intent);
@@ -301,6 +310,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Log.d("TEST", "SharedPref Dashboard status" + status);
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
