@@ -111,12 +111,12 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
                 progressText.setText("8 of 8");
 
                 final Map<String, String> sortedMap = new TreeMap<>(hashMap);
-                Toast.makeText(this, "Map is: " + sortedMap, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Map is: " + sortedMap, Toast.LENGTH_LONG).show();
                 pos = feedbackAdapter.getCount() - 1;
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getApplicationContext(), "Feedback Response......." + response, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(), "Feedback Response......." + response, Toast.LENGTH_LONG).show();
                         Log.i("TEST", "Feedback Response......." + response);
                         if (!response.equals("Error")) {
                             credits = Integer.parseInt(response);

@@ -100,7 +100,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 int x = user.getCredits();
-                Toast.makeText(getApplicationContext(),"Your credits are:" + x,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Your total credits are: " + x,Toast.LENGTH_LONG).show();
             }
         });
         userLocalStore = new UserLocalStore(getApplicationContext());
@@ -340,8 +340,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             credits = Integer.parseInt(getIntent().getStringExtra("credits"));
             Toast.makeText(getApplicationContext(), "Your Credits after feedback: " + credits, Toast.LENGTH_LONG).show();
         } else {
-            credits = user.getCredits();
-            Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
+            //credits = user.getCredits();
+            //Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
         }
 
 
