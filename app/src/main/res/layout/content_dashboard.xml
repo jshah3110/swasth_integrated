@@ -43,7 +43,7 @@
                         android:layout_gravity="center"
                         android:alpha="1"
                         android:background="@drawable/icon"
-
+                        android:id="@+id/imgCredits"
                         android:clickable="true"
                         android:elevation="7dp"
                         android:paddingBottom="48dp"

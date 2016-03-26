@@ -27,12 +27,13 @@ public class Barcode extends AppCompatActivity {
     public final static int WIDTH = 600;
     public final static int HEIGHT = 300;
     public final static String STR = "A string to be encoded as QR code";
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
-
+        user = new User(getApplicationContext());
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
@@ -54,7 +55,7 @@ public class Barcode extends AppCompatActivity {
         setContentView(l);
 
         // barcode data
-        String barcode_data = "123456";
+        String barcode_data = Integer.toString(user.getCardNumber());
 
         // barcode image
         Bitmap bitmap = null;

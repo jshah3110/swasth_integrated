@@ -59,7 +59,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     private UserLocalStore userLocalStore;
     private Toolbar toolbar;                              // Declaring the Toolbar Object
-
+    ImageButton imageButtonCredits;
 
     private User user;
     private Bundle bundle;
@@ -95,7 +95,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         btnFeedback.setOnClickListener(this);
         imageButton = (ImageButton) findViewById(R.id.barcode_image);
         imageButton.setOnClickListener(this);
-
+        imageButtonCredits = (ImageButton) findViewById(R.id.imgCredits);
+        imageButtonCredits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = user.getCredits();
+                Toast.makeText(getApplicationContext(),"Your credits are:" + x,Toast.LENGTH_LONG).show();
+            }
+        });
         userLocalStore = new UserLocalStore(getApplicationContext());
         boolean status = userLocalStore.getLoginStatus();
 
@@ -261,6 +268,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 startActivity(intent);
 //              finish();
                 break;
+
         }
 
     }
