@@ -36,6 +36,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private TextView progressText;
     private LinearLayout feedbackScrollViewLayout;
     private FeedbackAdapter feedbackAdapter;
+    private Button previousButton;
     private RadioGroup optionsRadioGroup;
     private Map<String, String> hashMap;
     private ScrollView mainScrollView;
@@ -50,7 +51,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         progressText.setText((pos + 1) + " of 8");
 
         Button nextButton = (Button) findViewById(R.id.nextButton);
-        Button previousButton = (Button) findViewById(R.id.previousButton);
+        previousButton = (Button) findViewById(R.id.previousButton);
         //   mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
 
 
@@ -67,6 +68,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
         feedbackAdapter = new FeedbackAdapter(this, feedback);
 
         feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
+        previousButton.setVisibility(View.GONE);
 
         hashMap = new HashMap<>(feedback.length);
         optionsRadioGroup = (RadioGroup) findViewById(R.id.optionsRadioGroup);
@@ -103,6 +105,7 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private void nextQuestion() {
         if (flag) {
             pos++;
+            previousButton.setVisibility(View.VISIBLE);
             progressText.setText((pos + 1) + " of 8");
             if (pos >= feedbackAdapter.getCount()) {
                 progressText.setText("8 of 8");
@@ -166,6 +169,9 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     private void previousQuestion() {
         pos--;
+
+        if (pos == 0)
+            previousButton.setVisibility(View.GONE);
         progressText.setText((pos + 1) + " of 8");
         if (pos < 0) {
             progressText.setText("1 of 8");
@@ -229,17 +235,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if (pos == 0) {
-//            startActivity(new Intent(FeedbackActivity.this, Dashboard.class));
-            progressText.setText("1 of 8");
-            //saveRadioState();
+        pos--;
+        if (pos < 0) {
             finish();
-        } else
-            pos--;
-        progressText.setText((pos + 1) + " of 8");
-        feedbackScrollViewLayout.removeViewAt(0);
-        feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
-        saveRadioState();
-        flag = true;
+        } else if (pos >= 0) {
+            if (pos == 0)
+                previousButton.setVisibility(View.GONE);
+
+            progressText.setText((pos + 1) + " of 8");
+            feedbackScrollViewLayout.removeViewAt(0);
+            feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
+            saveRadioState();
+            flag = true;
+        }
     }
 }
