@@ -25,10 +25,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.Locale;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Retrofit;
 
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
 
+    public static String JSON_ADDRESS = "";
     String TITLES[] = {"Home", "Language", "Tutorial", "About"};
     int ICONS[] = {R.drawable.rsz_2ic_home_black_24dp, R.mipmap.ic_launcher, R.drawable.rsz_ic_desktop_mac_black_24dp, R.drawable.rsz_ic_information_outline_black_24dp};
     String NAME = "";
@@ -43,34 +55,54 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     Locale myLocale;
     ActionBarDrawerToggle mDrawerToggle;                  // Declaring Action Bar Drawer Toggle
     TextView textView;
-    //Similarly we Create a String Resource for the name and email in the header view
-    //And we also create a int resource for profile picture in the header view
+    private Feedback[] feedback;
+
     private UserLocalStore userLocalStore;
     private Toolbar toolbar;                              // Declaring the Toolbar Object
-    // Declaring Action Bar Drawer Toggle
+    ImageButton imageButtonCredits;
+
     private User user;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         SharedPreferences editor = getSharedPreferences("lang_info", Context.MODE_PRIVATE);
         int selected = editor.getInt("key_lang", 0);
-
         selectLanguage(selected);
+        setTitle(R.string.title_activity_dashboard);
         user = new User(getApplicationContext());
+
         setContentView(R.layout.activity_dashboard);
+
         NAME = user.getName();
         CARD_NO = Integer.toString(user.getCardNumber());
+        JSON_ADDRESS = "http://swasth-india.esy.es/swasth/jsontest.php?choice=" + selected;
+
         textView = (TextView) findViewById(R.id.textView);
-        textView.setText("Card No: " + CARD_NO);
+        textView.setText(String.format("%s : %s", getResources().getString(R.string.card_no_textview), CARD_NO));
+        //textView.setText(R.string.card_no_textview);
+        //textView.setText(R.string.card_no_textview + ": " + CARD_NO);
+
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+
+
+        getJsonQuestions(selected);
 
         btnFeedback = (LinearLayout) findViewById(R.id.feedbackLinearLayout);
         btnFeedback.setOnClickListener(this);
         imageButton = (ImageButton) findViewById(R.id.barcode_image);
         imageButton.setOnClickListener(this);
-
+        imageButtonCredits = (ImageButton) findViewById(R.id.imgCredits);
+        imageButtonCredits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int x = user.getCredits();
+                Toast.makeText(getApplicationContext(),"Your total credits are: " + x,Toast.LENGTH_LONG).show();
+            }
+        });
         userLocalStore = new UserLocalStore(getApplicationContext());
         boolean status = userLocalStore.getLoginStatus();
 
@@ -145,20 +177,26 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     Drawer.closeDrawers();
-
-
                     Toast.makeText(Dashboard.this, "The Item Clicked is: " + recyclerView.getChildPosition(child), Toast.LENGTH_SHORT).show();
 
+                    switch (recyclerView.getChildAdapterPosition(child)) {
+                        case 2:
+//                            Toast.makeText(Dashboard.this, "The Item Clicked is: language!", Toast.LENGTH_SHORT).show();
+                            showLanguageDialogFragment();
+                            break;
+                        case 1:
+                            break;
+                        default:
+                            break;
+                    }
+
                     return true;
-
                 }
-
                 return false;
             }
 
             @Override
             public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-
             }
         });
 
@@ -191,6 +229,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    private void showLanguageDialogFragment() {
+        new LanguageDialogFragment().show(getSupportFragmentManager(), "custom dialog");
+    }
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -204,27 +246,29 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 //                Intent intent2 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "9833151491"));
 //                startActivity(intent2);
 //                break;
+
+            case R.id.barcode_text:
             case R.id.barcode_image:
                 Intent intent5 = new Intent(Dashboard.this, Barcode.class);
                 startActivity(intent5);
                 break;
+
+            case R.id.centers_text:
             case R.id.centers_image:
                 String map1 = "http://maps.google.co.in/maps?q=" + "Swasth Foundation";
                 Intent intent3 = new Intent(Intent.ACTION_VIEW, Uri.parse(map1));
                 startActivity(intent3);
                 break;
 
-            case R.id.centers_text:
-                String map2 = "http://maps.google.co.in/maps?q=" + "Swasth Foundation";
-                Intent intent4 = new Intent(Intent.ACTION_VIEW, Uri.parse(map2));
-                startActivity(intent4);
-                break;
-
             case R.id.feedbackLinearLayout:
                 Intent intent = new Intent(this, FeedbackActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArray("feedback", feedback);
+                intent.putExtras(bundle);
                 startActivity(intent);
 //              finish();
                 break;
+
         }
 
     }
@@ -265,21 +309,21 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         }
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        userLocalStore = new UserLocalStore(getApplicationContext());
-        boolean status = userLocalStore.getLoginStatus();
-
-        Intent intent = new Intent(Dashboard.this, MainActivity.class);
-
-        if (!status) {
-            Log.d("TEST", "SharedPref status" + status);
-            startActivity(intent);
-        } else {
-            Log.d("TEST", "SharedPref Dashboard status" + status);
-        }
-    }
+//    @Override
+//    protected void onPostResume() {
+//        super.onPostResume();
+//        userLocalStore = new UserLocalStore(getApplicationContext());
+//        boolean status = userLocalStore.getLoginStatus();
+//
+//        Intent intent = new Intent(Dashboard.this, MainActivity.class);
+//
+//        if (!status) {
+//            Log.d("TEST", "SharedPref status" + status);
+//            startActivity(intent);
+//        } else {
+//            Log.d("TEST", "SharedPref Dashboard status" + status);
+//        }
+//    }
 
     @Override
     protected void onStart() {
@@ -292,15 +336,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         user = new User(getApplicationContext());
 
         int credits;
-        if(getIntent().getStringExtra("credits")!=null){
+        if (getIntent().getStringExtra("credits") != null) {
             credits = Integer.parseInt(getIntent().getStringExtra("credits"));
             Toast.makeText(getApplicationContext(), "Your Credits after feedback: " + credits, Toast.LENGTH_LONG).show();
+        } else {
+            //credits = user.getCredits();
+            //Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
         }
-        else{
-            credits = user.getCredits();
-            Toast.makeText(getApplicationContext(), "Your Credits: OnStart " + credits, Toast.LENGTH_LONG).show();
-        }
-
 
 
         if (!status) {
@@ -328,11 +370,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            Intent intent = new Intent(Dashboard.this, MainActivity.class);
+//            Intent intent = new Intent(Dashboard.this, MainActivity.class);
             Log.i("TEST", "Logout Test");
             userLocalStore.clearUserData();
             userLocalStore.setLoggedInUser(false);
-            startActivity(intent);
+//          startActivity(intent);
             finish();
             return true;
         }
@@ -388,5 +430,46 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         //onConfigurationChanged(config);  //not getting overridden
+    }
+
+    private void getJsonQuestions(final int choice) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_ADDRESS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("TEST", "Response..." + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error......." + error, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        FeedbackDownloadService service = FeedbackDownloadAdapter.getRetrofitBuilder();
+        final Call<Feedback[]> fetchFeedback = service.fetchFeedback(choice);
+        fetchFeedback.enqueue(new Callback<Feedback[]>() {
+            @Override
+            public void onResponse(retrofit.Response<Feedback[]> response, Retrofit retrofit) {
+                feedback = response.body();
+                //Log.i("mits ", feedback[1].question);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("choice", Integer.toString(choice));
+//                return params;
+//            }
+//        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

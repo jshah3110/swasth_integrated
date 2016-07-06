@@ -2,18 +2,14 @@ package com.example.mastek.blue.deep.swasthtesting;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,92 +21,67 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
+    public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/swasth/insert_medical_feedback.php";
+    public static int credits = 0;
+    SharedPreferences sharedPreferences;
     private int pos = 0;
     private boolean flag = false;
     private TextView progressText;
-    private LinearLayout feedbackLinearLayout;
-    private LinearLayout answerLinearLayout;
-    private QuestionsAdapter questionsAdapter;
-    private AnswersAdapter answersAdapter;
+    private LinearLayout feedbackScrollViewLayout;
+    private FeedbackAdapter feedbackAdapter;
+    private Button previousButton;
     private RadioGroup optionsRadioGroup;
     private Map<String, String> hashMap;
     private ScrollView mainScrollView;
-    public static int credits = 0;
     private User user;
-    SharedPreferences sharedPreferences;
-    public static final String SERVER_ADDRESS = "http://swasth-india.esy.es/swasth/insert_medical_feedback.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
         user = new User(getApplicationContext());
-        progressText = (TextView)findViewById(R.id.progress_text);
-        progressText.setText((pos+1)+" of 8");
+        progressText = (TextView) findViewById(R.id.progress_text);
+        progressText.setText((pos + 1) + " of 8");
 
         Button nextButton = (Button) findViewById(R.id.nextButton);
-        Button previousButton = (Button) findViewById(R.id.previousButton);
-//        mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
+        previousButton = (Button) findViewById(R.id.previousButton);
+        //   mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
 
-        if(pos == 0){
-            previousButton.setVisibility(View.GONE);
-        }
+
+        Bundle bundle = getIntent().getExtras();
+        Parcelable[] parcelable = bundle.getParcelableArray("feedback");
+        Feedback[] feedback = new Feedback[parcelable.length];
+        System.arraycopy(parcelable, 0, feedback, 0, parcelable.length);
+        //Log.i("TEST ", feedback[0].question);
 
         nextButton.setOnClickListener(this);
         previousButton.setOnClickListener(this);
 
-        try {
-            InputStream inputStream1 = getAssets().open("feedback.json");
-            String response1 = IOUtils.toString(inputStream1);
+        feedbackScrollViewLayout = (LinearLayout) findViewById(R.id.feedbackScrollViewLayout);
+        feedbackAdapter = new FeedbackAdapter(this, feedback);
 
-            InputStream inputStream2 = getAssets().open("feedbackanswers.json");
-            String response2 = IOUtils.toString(inputStream2);
+        feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
+        previousButton.setVisibility(View.GONE);
 
-            Gson gson1 = new GsonBuilder().create();
-            Questions feedbackCollection = gson1.fromJson(response1, Questions.class);
-
-            Answers answersCollection = gson1.fromJson(response2, Answers.class);
-
-//            Toast.makeText(this, feedbackCollection.questions[0].question, Toast.LENGTH_SHORT).show();
-//            Toast.makeText(this, String.valueOf(answersCollection.answers.length), Toast.LENGTH_SHORT).show();
-//            Toast.makeText(this, answersCollection.answers[0].option1, Toast.LENGTH_SHORT).show();
-
-            feedbackLinearLayout = (LinearLayout) findViewById(R.id.feedbackLinearLayout);
-            questionsAdapter = new QuestionsAdapter(this, feedbackCollection);
-
-            answerLinearLayout = (LinearLayout) findViewById(R.id.answerScrollViewLayout);
-            answersAdapter = new AnswersAdapter(this, answersCollection);
-            feedbackLinearLayout.addView(questionsAdapter.getView(pos, null, feedbackLinearLayout));
-            answerLinearLayout.addView(answersAdapter.getView(pos, null, answerLinearLayout));
-
-            hashMap = new HashMap<>(feedbackCollection.questions.length);
-            optionsRadioGroup = (RadioGroup) findViewById(R.id.optionsRadioGroup);
-            optionsRadioGroup.setOnCheckedChangeListener(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        hashMap = new HashMap<>(feedback.length);
+        optionsRadioGroup = (RadioGroup) findViewById(R.id.optionsRadioGroup);
+        optionsRadioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onClick(View v) {
 
-        //mainScrollView.smoothScrollTo(0, 0);
-        //mainScrollView.pageScroll(View.FOCUS_UP);
-
-        // Wait until my scrollView is ready
+//        mainScrollView.smoothScrollTo(0, 0);
+//        mainScrollView.pageScroll(View.FOCUS_UP);
+//
+//        // Wait until my scrollView is ready
 //        mainScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 //            @Override
 //            public void onGlobalLayout() {
@@ -134,62 +105,58 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
     private void nextQuestion() {
         if (flag) {
             pos++;
-            Button previousButton = (Button) findViewById(R.id.previousButton);
             previousButton.setVisibility(View.VISIBLE);
-            progressText.setText((pos+1)+" of 8");
-            if (pos >= questionsAdapter.getCount()) {
+            progressText.setText((pos + 1) + " of 8");
+            if (pos >= feedbackAdapter.getCount()) {
                 progressText.setText("8 of 8");
 
                 final Map<String, String> sortedMap = new TreeMap<>(hashMap);
-                Toast.makeText(this, "Map is: " + sortedMap, Toast.LENGTH_LONG).show();
-                pos = questionsAdapter.getCount() - 1;
-                 StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Toast.makeText(getApplicationContext(),"Feedback Response......." + response , Toast.LENGTH_LONG).show();
-                    Log.i("TEST", "Feedback Response......." + response);
-                    if(!response.equals("Error")){
-                        credits = Integer.parseInt(response);
-                        user.updateCredits(credits);
-                        Log.i("TEST","User Class Credits:" + user.getCredits());
-                        Intent intent = new Intent(FeedbackActivity.this, Dashboard.class);
-                        intent.putExtra("credits",response);
-                        startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "Thank you for the feedback.", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Log.i("TEST","Error:"  + response);
-                    }
+                //Toast.makeText(this, "Map is: " + sortedMap, Toast.LENGTH_LONG).show();
+                pos = feedbackAdapter.getCount() - 1;
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, SERVER_ADDRESS, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                       // Toast.makeText(getApplicationContext(), "Feedback Response......." + response, Toast.LENGTH_LONG).show();
+                        Log.i("TEST", "Feedback Response......." + response);
+                        if (!response.equals("Error")) {
+                            credits = Integer.parseInt(response);
+                            user.updateCredits(credits);
+                            Log.i("TEST", "User Class Credits:" + user.getCredits());
+                            Intent intent = new Intent(FeedbackActivity.this, Dashboard.class);
+                            intent.putExtra("credits", response);
+                            startActivity(intent);
+                            Toast.makeText(getApplicationContext(), "Thank you for the feedback.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.i("TEST", "Error:" + response);
+                        }
 //                    Intent intent = new Intent(FeedbackActivity.this, FeedbackSummary.class);
 //                    intent.putExtra("summary",sortedMap.toString());
 //                    startActivity(intent);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(),"Feedback Error......." + error , Toast.LENGTH_LONG).show();
-                    //Toast.makeText(getApplicationContext(),"Errror......." + error , Toast.LENGTH_LONG).show();
-                    Log.i("TEST", "Feedback Error......." + error);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Feedback Error......." + error, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"Errror......." + error , Toast.LENGTH_LONG).show();
+                        Log.i("TEST", "Feedback Error......." + error);
 
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    return sortedMap;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(stringRequest);
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        return sortedMap;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(stringRequest);
 
 //                Intent intent = new Intent(this, MainActivity.class);
 //                intent.putExtra("map", sortedMap);
 //                startActivity(intent);
-//                finish();
+                finish();
             } else {
-                feedbackLinearLayout.removeViewAt(0);
-                answerLinearLayout.removeViewAt(0);
-                feedbackLinearLayout.addView(questionsAdapter.getView(pos, null, feedbackLinearLayout));
-                answerLinearLayout.addView(answersAdapter.getView(pos, null, answerLinearLayout));
+                feedbackScrollViewLayout.removeViewAt(0);
+                feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
                 saveRadioState();
                 if (!hashMap.containsKey(Integer.toString(pos + 1))) {
                     flag = false;
@@ -202,20 +169,17 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     private void previousQuestion() {
         pos--;
-        progressText.setText((pos+1)+" of 8");
+
+        if (pos == 0)
+            previousButton.setVisibility(View.GONE);
+        progressText.setText((pos + 1) + " of 8");
         if (pos < 0) {
             progressText.setText("1 of 8");
+            Toast.makeText(this, "This is the first question!", Toast.LENGTH_SHORT).show();
             pos = 0;
-        }
-//        else if(pos == 0){
-//            Button previousButton = (Button) findViewById(R.id.previousButton);
-//            previousButton.setVisibility(View.GONE);
-//        }
-        else {
-            feedbackLinearLayout.removeViewAt(0);
-            answerLinearLayout.removeViewAt(0);
-            feedbackLinearLayout.addView(questionsAdapter.getView(pos, null, feedbackLinearLayout));
-            answerLinearLayout.addView(answersAdapter.getView(pos, null, answerLinearLayout));
+        } else {
+            feedbackScrollViewLayout.removeViewAt(0);
+            feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
 
             saveRadioState();
             flag = true;
@@ -271,26 +235,18 @@ public class FeedbackActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if(pos == 0){
-//            startActivity(new Intent(FeedbackActivity.this, Dashboard.class));
-            progressText.setText("1 of 8");
-            Button previousButton = (Button) findViewById(R.id.previousButton);
-            previousButton.setVisibility(View.GONE);
-            //saveRadioState();
+        pos--;
+        if (pos < 0) {
             finish();
-        }
-//        else if(pos == 1){
-//            Button previousButton = (Button) findViewById(R.id.previousButton);
-//            previousButton.setVisibility(View.GONE);
-//        }
-        else
-            pos--;
-            progressText.setText((pos+1)+" of 8");
-            feedbackLinearLayout.removeViewAt(0);
-            answerLinearLayout.removeViewAt(0);
-            feedbackLinearLayout.addView(questionsAdapter.getView(pos, null, feedbackLinearLayout));
-            answerLinearLayout.addView(answersAdapter.getView(pos, null, answerLinearLayout));
+        } else if (pos >= 0) {
+            if (pos == 0)
+                previousButton.setVisibility(View.GONE);
+
+            progressText.setText((pos + 1) + " of 8");
+            feedbackScrollViewLayout.removeViewAt(0);
+            feedbackScrollViewLayout.addView(feedbackAdapter.getView(pos, null, feedbackScrollViewLayout));
             saveRadioState();
             flag = true;
+        }
     }
 }
